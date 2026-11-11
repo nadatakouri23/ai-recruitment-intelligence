@@ -1,0 +1,30 @@
+# Services de développement. Lancer : docker compose up -d
+# Les variables ${...} sont lues dans le fichier .env à la racine du projet.
+
+services:
+  db:
+    # PostgreSQL 16 avec l'extension pgvector déjà installée.
+    image: pgvector/pgvector:pg16
+    container_name: talent-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-talent_platform}
+      POSTGRES_USER: ${POSTGRES_USER:-talent_user}
+      # Obligatoire : Compose refuse de démarrer si le mot de passe est absent.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD manquant dans .env}
+    ports:
+      # Accessible depuis ta machine uniquement (127.0.0.1), port hôte 5433.
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      # Données persistantes entre les redémarrages.
+      - pgdata:/var/lib/postgresql/data
+      # Exécuté une seule fois, à la création de la base : active pgvector.
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-talent_user} -d ${POSTGRES_DB:-talent_platform}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

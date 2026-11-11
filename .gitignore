@@ -1,0 +1,50 @@
+# ---------- Secrets & configuration locale ----------
+# Ne jamais versionner de clés API ni de mots de passe.
+# Seul .env.example (sans valeurs sensibles) est suivi par Git.
+.env
+.env.*
+!.env.example
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ---------- Données candidats (vie privée) ----------
+# Les CV uploadés ne doivent jamais arriver sur GitHub.
+data/uploads/
+# Données générées : on garde seulement le .gitkeep du dossier.
+data/processed/*
+!data/processed/.gitkeep
+# Les données réelles éventuelles restent hors dépôt.
+data/private/
+
+# ---------- Base de données locale ----------
+pgdata/
+*.sqlite3
+*.db
+
+# ---------- Modèles ML téléchargés (lourds, re-téléchargeables) ----------
+.cache/
+models_cache/
+*.safetensors
+*.bin
+
+# ---------- Frontend (futur) ----------
+node_modules/
+dist/
+.vite/
+
+# ---------- Éditeur / OS ----------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

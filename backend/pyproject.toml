@@ -1,0 +1,18 @@
+# Configuration des outils du backend.
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+# E/W : style pycodestyle      F : erreurs (imports/variables inutilisés)
+# I   : tri des imports        UP : syntaxe Python moderne
+# B   : pièges courants        SIM : simplifications
+select = ["E", "W", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+# Dossier où pytest cherche les tests.
+testpaths = ["tests"]
+# Ajoute backend/ au chemin d'import : permet "from app.main import ..." dans les tests.
+pythonpath = ["."]

@@ -1,0 +1,8 @@
+# Outils de développement et de test (non nécessaires en production).
+# Installation : pip install -r requirements-dev.txt
+-r requirements.txt
+pytest==9.2.0
+# httpx est requis par le TestClient de FastAPI.
+httpx==0.28.1
+# Linter et formateur.
+ruff==0.17.4

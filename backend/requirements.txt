@@ -1,0 +1,7 @@
+# Dépendances runtime du backend (versions exactes pour la reproductibilité).
+# Seuls les paquets DIRECTS sont listés ; pip résout les dépendances transitives.
+# Installation : pip install -r requirements.txt
+fastapi==0.162.4
+uvicorn[standard]==0.54.0
+pydantic-settings==2.16.2
+structlog==26.1.0
