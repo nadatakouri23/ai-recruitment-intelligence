@@ -4,5 +4,9 @@
 pytest==9.2.0
 # httpx est requis par le TestClient de FastAPI.
 httpx==0.28.1
+# Génération de PDF synthétiques pour les tests et les CV d'exemple.
+reportlab==5.1.0
+# Vérifie que notre TF-IDF fait exactement le même calcul (test d'équivalence).
+scikit-learn==1.9.1
 # Linter et formateur.
 ruff==0.17.4

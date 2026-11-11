@@ -1,0 +1,7 @@
+# Dépendances OPTIONNELLES de la recherche sémantique (modèle d'embeddings local).
+# Lourdes : PyTorch (~200 Mo) + le modèle multilingue (~450 Mo, téléchargé au premier usage).
+# Sans elles, l'application fonctionne : recherche par mots-clés et matching restent disponibles.
+# Installation : pip install -r requirements-ml.txt
+# Activation   : EMBEDDING_PROVIDER=sentence_transformers dans .env
+-r requirements.txt
+sentence-transformers==6.2.0

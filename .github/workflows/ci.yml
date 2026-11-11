@@ -12,6 +12,32 @@ jobs:
     defaults:
       run:
         working-directory: backend
+
+    # PostgreSQL + pgvector (même image qu'en local) pour les tests d'intégration.
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: talent_user
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: talent_platform
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U talent_user -d talent_platform"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    # Valeurs propres à la CI (aucun secret réel : la base n'existe que le temps du job).
+    env:
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: talent_user
+      POSTGRES_PASSWORD: ci-only-password
+      POSTGRES_DB: talent_platform
+      JWT_SECRET_KEY: ci-only-jwt-secret-not-used-anywhere-else-1234567890
+
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +56,7 @@ jobs:
       - name: Format (Ruff)
         run: ruff format --check .
 
-      # Aucun fichier .env sur la CI : les tests fournissent leur propre configuration.
+      # Aucun fichier .env sur la CI : la configuration vient des variables ci-dessus.
+      # Les tests créent la base `talent_platform_test` et rejouent les migrations Alembic.
       - name: Tests (pytest)
         run: pytest -v

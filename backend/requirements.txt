@@ -5,3 +5,18 @@ fastapi==0.162.4
 uvicorn[standard]==0.54.0
 pydantic-settings==2.16.2
 structlog==26.1.0
+# Phase 1 : base de données et authentification
+SQLAlchemy==2.1.8
+alembic==1.20.1
+psycopg[binary]==3.3.8
+argon2-cffi==25.1.0
+PyJWT==2.15.1
+# Requis par Pydantic pour valider les adresses e-mail (EmailStr).
+email-validator==2.3.0
+# Requis par FastAPI pour lire les formulaires (login OAuth2 / bouton « Authorize » de Swagger).
+python-multipart==0.0.33
+# Phase 6 : type vectoriel PostgreSQL (la recherche sémantique elle-même est optionnelle)
+pgvector==0.5.1
+# Phase 2 : lecture des CV
+pdfplumber==0.11.10
+python-docx==1.2.0

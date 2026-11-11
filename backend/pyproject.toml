@@ -3,13 +3,39 @@
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-extend-exclude = [".venv"]
+# Les migrations sont générées par Alembic : on ne les reformate pas à la main.
+extend-exclude = [".venv", "alembic/versions"]
 
 [tool.ruff.lint]
 # E/W : style pycodestyle      F : erreurs (imports/variables inutilisés)
 # I   : tri des imports        UP : syntaxe Python moderne
 # B   : pièges courants        SIM : simplifications
 select = ["E", "W", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.isort]
+# Notre dossier backend/alembic (migrations) porte le même nom que la bibliothèque Alembic :
+# on précise que `import alembic` désigne la bibliothèque tierce.
+known-third-party = ["alembic"]
+known-first-party = ["app", "tests"]
+
+[tool.ruff.lint.flake8-bugbear]
+# `Depends(...)` et `Query(...)` en valeur par défaut sont l'idiome normal de FastAPI.
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.File"]
+
+[tool.ruff.lint.per-file-ignores]
+# Listes de mots écrites en une chaîne coupée par .split() : plus lisibles qu'une liste de 80 chaînes.
+"app/modules/candidates/parsing/extractors.py" = ["SIM905"]
+"app/modules/candidates/parsing/language_detection.py" = ["SIM905"]
+# Listes de mots vides : une chaîne coupée par .split(), sur des lignes plus longues que le reste.
+"app/modules/matching/text.py" = ["SIM905", "E501"]
+# Textes d'offres et de CV d'exemple : des données, pas du code.
+"tests/job_factory.py" = ["E501"]
+"tests/cv_factory.py" = ["E501"]
+"tests/test_matching_engine.py" = ["E501"]
+# Banc d'évaluation : données et mise en page de rapport, pas du code applicatif.
+"evaluation/*.py" = ["E501", "SIM905"]
+# Consignes envoyées au modèle : du texte, coupé à la main, pas du code.
+"app/modules/llm/prompts.py" = ["E501"]
 
 [tool.pytest.ini_options]
 # Dossier où pytest cherche les tests.
